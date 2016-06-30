@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Canvas制作七巧板</title>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<canvas id="canvas" width="800" height="800" style="display: block; border: 1px solid #aaa; margin: 0 auto;">
+			当前浏览器不支持canvas画布，请更换浏览器之后再打开吧！
+		</canvas>
+		<script>
+			// 定义了一个数组对象，每个对象又包括了p属性和color属性，p为块的各个坐标，color为填充颜色
+			var tangram = [
+			{p:[{x:0,y:0},{x:800,y:0},{x:400,y:400}],color:'#caff67'},
+			{p:[{x:0,y:0},{x:400,y:400},{x:0,y:800}],color:'#67beef'},
+			{p:[{x:800,y:0},{x:800,y:400},{x:600,y:600},{x:600,y:200}],color:'#ef3d61'},
+			{p:[{x:600,y:200},{x:600,y:600},{x:400,y:400}],color:'#f9f51a'},
+			{p:[{x:400,y:400},{x:600,y:600},{x:400,y:800},{x:200,y:600}],color:'#a594c0'},
+			{p:[{x:200,y:600},{x:400,y:800},{x:0,y:800}],color:'#fa8ecc'},
+			{p:[{x:800,y:400},{x:800,y:800},{x:400,y:800}],color:'#f6ca29'}
+			];
+			
+			window.onload = function(){
+				var canvas = document.getElementById('canvas');   // 先获取画布
+				// canvas.width=800;  因为在标签属性那边已经设置过了，所以不用再设置
+				var context = canvas.getContext('2d');  // 取得图形的上下文环境
+				for (var i = 0; i< tangram.length;i++) {
+					draw(tangram[i],context);  //传入两个参数，一个是七巧板中的一块，一个是上下文环境
+				}
+			}
+			
+			function draw(piece,cxt){
+				cxt.beginPath();   // 开始绘制路径
+				cxt.moveTo(piece.p[0].x,piece.p[0].y);
+				for (var i=1; i<piece.p.length; i++) 
+					{cxt.lineTo(piece.p[i].x,piece.p[i].y);}
+				cxt.closePath();   //结束路径
+				
+				// 给模块填充颜色
+				cxt.fillStyle=piece.color;
+				cxt.fill();
+				
+				// 给模块增加线条
+				cxt.strokeStyle='#333';
+				cxt.lineWidth=3;
+				cxt.stroke();
+			}
+		</script>
+	</body>
+</html>
